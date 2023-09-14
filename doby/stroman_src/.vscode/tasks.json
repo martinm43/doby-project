@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "My build task",
+            "type": "shell",
+            "command": "g++ srs.cpp -o SRSCalc -lsqlite3 -Wall -I /usr/local/include/eigen3 -O3",
+            "options": {},
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "My run task",
+            "type": "shell",
+            "command": "./SRSCalc",
+            "options": {},
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "none",
+                "isDefault": true
+            }
+        }
+        
+
+    ]
+}
+
