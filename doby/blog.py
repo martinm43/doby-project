@@ -32,6 +32,7 @@ def elo():
     return render_template('blog/elo.html')
 
 @bp.route('/pred',methods=['GET','POST'])
+@login_required
 def pred_table():
     if request.method =='POST':
         season_year = 2023
