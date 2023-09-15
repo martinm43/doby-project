@@ -255,14 +255,14 @@ def form_query(team_id):
         #print(g)
         if g[1] > g[3]:
             if g[0] == team_id:
-                winstring += COLOR["GREEN"] + "W" + COLOR["ENDC"]
+                winstring += "W" 
             else:
-                winstring += COLOR["RED"] + "L" + COLOR["ENDC"]
+                winstring += "L" 
         if g[3] > g[1]:
             if g[0] == team_id:
-                winstring += COLOR["RED"] + "L" + COLOR["ENDC"]
+                winstring +=  "L" 
             else:
-                winstring += COLOR["GREEN"] + "W" + COLOR["ENDC"]
+                winstring +=  "W" 
     return winstring
 
 

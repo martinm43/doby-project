@@ -16,8 +16,8 @@ def get_wins(team_id, season_year, start_datetime, end_datetime):
     dict: away_wins of team, home_wins of team, and overall record.
 
     """
-    from mlb_database.mlb_models import Games
-    from mlb_database.queries import team_abbreviation, epochtime
+    from doby.stroman_src.mlb_database.mlb_models import Games
+    from doby.stroman_src.mlb_database.queries import team_abbreviation, epochtime
 
     away_query = Games.select().where(
         Games.year == season_year,

@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 from doby.stroman_src.prediction_table import playoff_odds_calc, playoff_odds_print
 from doby.stroman_src.team_srs_history_plots import team_plot_function as srs_plot
 from doby.stroman_src.team_elo_history_plots import team_plot_function as elo_plot
+from doby.stroman_src.info_table import results_table_function
 from doby.auth import login_required
 from doby.db import get_db
 from datetime import datetime, timedelta
@@ -41,3 +42,15 @@ def pred_table():
 
         return render_template('blog/pred.html',table = results_table)
     return render_template('blog/pred.html')
+
+@bp.route('/info',methods=['GET','POST'])
+def info_table():
+    if request.method =='POST':
+
+        season_year = int(request.form['season_year'])
+        start_datetime = datetime(season_year,3,22)
+        end_datetime = datetime(season_year, 11,1)
+        results_table = results_table_function(season_year, start_datetime, end_datetime)
+
+        return render_template('blog/info.html',table = results_table)
+    return render_template('blog/info.html')
