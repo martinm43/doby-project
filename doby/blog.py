@@ -13,8 +13,12 @@ from datetime import datetime, timedelta
 
 bp = Blueprint('blog', __name__)
 
-@bp.route('/',methods=['GET','POST'])
-@bp.route('/index',methods=["GET","POST"])
+@bp.route('/')
+@bp.route('/navigation')
+def navigation():
+    return render_template('navigation.html')
+
+@bp.route('/srs',methods=["GET","POST"])
 def srs():
     if request.method == 'POST':
         team_id = int(request.form['team_id'])
