@@ -99,9 +99,3 @@ with database.atomic() as txn:
 #For games not yet played, set home runs and away runs equal to 0
 Games.update(away_team_runs=0).where(Games.home_team_runs=="Game Preview, and Matchups").execute()
 Games.update(home_team_runs=0).where(Games.home_team_runs=="Game Preview, and Matchups").execute()
-
-print('Processing Elo')
-filestr = './ELOCalc'
-file_path = (base_path / filestr).resolve()
-print(file_path)
-subprocess.Popen(file_path)

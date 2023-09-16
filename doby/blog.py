@@ -6,6 +6,7 @@ from doby.stroman_src.prediction_table import playoff_odds_calc, playoff_odds_pr
 from doby.stroman_src.team_srs_history_plots import team_plot_function as srs_plot
 from doby.stroman_src.team_elo_history_plots import team_plot_function as elo_plot
 from doby.stroman_src.info_table import results_table_function
+from doby.stroman_src.plot_season_odds import plot_season_odds
 from doby.auth import login_required
 from doby.db import get_db
 from datetime import datetime, timedelta
@@ -55,3 +56,15 @@ def info_table():
 
         return render_template('blog/info.html',table = results_table)
     return render_template('blog/info.html')
+
+@bp.route('/plot',methods=['GET','POST'])
+def plot():
+    if request.method =='POST':
+
+        season_year = int(request.form['season_year']) #should be limited to between 1977
+        division_name = request.form['division_name'] # should be adjusting drop down
+        ratings_mode = request.form['ratings_mode'] # should be adjusting drop down
+        img_base64 = plot_season_odds(season_year, division_name, ratings_mode)
+
+        return render_template('blog/plot.html', plot=img_base64)
+    return render_template('blog/plot.html')
