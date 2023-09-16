@@ -1,3 +1,27 @@
+
+/* Apply styles to the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+  }
+  
+th, td {
+padding: 10px;
+text-align: left;
+border: 1px solid #ccc;
+}
+
+th {
+background-color: #f2f2f2;
+font-weight: bold;
+}
+
+tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+
 html { font-family: sans-serif; background: #eee; padding: 1rem; }
 body { max-width: 960px; margin: 0 auto; background: white; }
 h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
