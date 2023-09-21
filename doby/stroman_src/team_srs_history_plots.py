@@ -40,13 +40,14 @@ def team_plot_function(team_id):
         "SELECT primary_color from teams where team_id=" + str(team_id)
     )
     s = cursor.fetchall()
-    plt.figure(figsize=(6, 6))
+    plt.figure(figsize=(8, 8))
     plt.plot(
         df["epochtime"],
         df["srs_rating"].rolling(rolling_average).mean(),
         label=team_abbreviation(team_id),
         color=s[0][0],
     )
+    plt.grid()
     plt.xticks(rotation=45)
     plt.legend()
     plt.title("SRS rating history")
