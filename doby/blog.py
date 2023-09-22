@@ -46,6 +46,7 @@ def pred_table():
         ratings_mode = str(request.form['ratings_mode'])
         results_table = playoff_odds_print(playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode=ratings_mode),season_year=season_year)
 
+
         return render_template('blog/pred.html',table = results_table)
     return render_template('blog/pred.html')
 
@@ -68,12 +69,20 @@ def info_table_datepicker():
         season_year = int(request.form['season_year'])
         print(request.form['start_date'])
         print(request.form['end_date'])
-        start_datetime = datetime.strftime(request.form['start_date'],'%Y-%m-%d')
-        end_datetime = datetime.strftime(request.form['end_date'],'%Y-%m-%d')
+        start_datetime = datetime.strptime(request.form['start_date'],'%Y-%m-%d')
+        end_datetime = datetime.strptime(request.form['end_date'],'%Y-%m-%d')
         results_table = results_table_function(season_year, start_datetime, end_datetime)
-
         return render_template('blog/info_datepicker.html',table = results_table)
-    return render_template('blog/info_datepicker.html')
+    else:
+        # Use default values for initial rendering
+        season_year = 2023
+        season_year_str = str(season_year)
+        start_datetime_str = datetime(season_year,3,22).strftime('%Y-%m-%d')
+        end_datetime_str = (datetime.today()-timedelta(days=1)).strftime('%Y-%m-%d')
+
+        
+    return render_template('blog/info_datepicker.html', season_year=season_year, start_date=start_datetime_str, end_date=end_datetime_str)
+
 
 @bp.route('/plot',methods=['GET','POST'])
 def plot():

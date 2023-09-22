@@ -5,7 +5,7 @@
     <h1>Season Information Table</h1>
     <form method="post">
         <label for="season_year">Season</label>
-        <input type="text" name="season_year" required><br>
+        <input type="number" name="season_year" required min="1977" max="2023"><br>
         <button type="submit">Calculate</button>
     </form>
     {% if table %}

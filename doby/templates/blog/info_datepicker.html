@@ -25,18 +25,19 @@
                 changeYear: true
             });
     
-            // Set default year and dates
-            var defaultYear = 2023;  // Set your default year
-            var defaultStartDate = defaultYear + '-01-01';
-            var defaultEndDate = defaultYear + '-12-31';
+            // Set default values or values from the POST request
+            startDateInput.val('{{ start_date }}');
+            endDateInput.val('{{ end_date }}');
+            yearSelector.val('{{ season_year }}');
     
 
             startDateInput.val(defaultStartDate);
             endDateInput.val(defaultEndDate);
+            yearSelector.val(defaultYear)
     
             // Generate a range of years dynamically
             var currentYear = new Date().getFullYear();
-            for (var i = currentYear - 10; i <= currentYear + 10; i++) {
+            for (var i = 1977; i <= currentYear; i++) {
                 yearSelector.append($('<option>', {
                     value: i,
                     text: i
