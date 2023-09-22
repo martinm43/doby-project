@@ -26,14 +26,15 @@
             });
     
             // Set default values or values from the POST request
+            //yearSelector.val('{{ season_year }}');
             startDateInput.val('{{ start_date }}');
             endDateInput.val('{{ end_date }}');
-            yearSelector.val('{{ season_year }}');
+            
     
 
-            startDateInput.val(defaultStartDate);
-            endDateInput.val(defaultEndDate);
-            yearSelector.val(defaultYear)
+            //startDateInput.val(defaultStartDate);
+            //endDateInput.val(defaultEndDate);
+            
     
             // Generate a range of years dynamically
             var currentYear = new Date().getFullYear();
@@ -45,7 +46,7 @@
             }
     
             // Set the default year in the year selector dropdown
-            yearSelector.val(defaultYear);
+            yearSelector.val(2023);
     
             // Handle year selection change
             yearSelector.on("change", function() {
