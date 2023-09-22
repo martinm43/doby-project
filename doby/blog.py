@@ -61,6 +61,20 @@ def info_table():
         return render_template('blog/info.html',table = results_table)
     return render_template('blog/info.html')
 
+@bp.route('/info_datepicker',methods=['GET','POST'])
+def info_table_datepicker():
+    if request.method =='POST':
+
+        season_year = int(request.form['season_year'])
+        print(request.form['start_date'])
+        print(request.form['end_date'])
+        start_datetime = datetime.strftime(request.form['start_date'],'%Y-%m-%d')
+        end_datetime = datetime.strftime(request.form['end_date'],'%Y-%m-%d')
+        results_table = results_table_function(season_year, start_datetime, end_datetime)
+
+        return render_template('blog/info_datepicker.html',table = results_table)
+    return render_template('blog/info_datepicker.html')
+
 @bp.route('/plot',methods=['GET','POST'])
 def plot():
     if request.method =='POST':

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <title>Date Selection with Dynamic Year Range</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            // Initialize the datepicker
+            var startDateInput = $("#start_date");
+            var endDateInput = $("#end_date");
+            var yearSelector = $("#season_year");
+    
+            startDateInput.datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+            });
+    
+            endDateInput.datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+            });
+    
+            // Set default year and dates
+            var defaultYear = 2023;  // Set your default year
+            var defaultStartDate = defaultYear + '-01-01';
+            var defaultEndDate = defaultYear + '-12-31';
+    
+
+            startDateInput.val(defaultStartDate);
+            endDateInput.val(defaultEndDate);
+    
+            // Generate a range of years dynamically
+            var currentYear = new Date().getFullYear();
+            for (var i = currentYear - 10; i <= currentYear + 10; i++) {
+                yearSelector.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+    
+            // Set the default year in the year selector dropdown
+            yearSelector.val(defaultYear);
+    
+            // Handle year selection change
+            yearSelector.on("change", function() {
+                var selectedYear = $(this).val();
+                var startDate = new Date(selectedYear, 0, 1); // January 1st
+                var endDate = new Date(selectedYear, 11, 31); // December 31st
+    
+                startDateInput.datepicker("option", "minDate", startDate);
+                startDateInput.datepicker("option", "maxDate", endDate);
+                endDateInput.datepicker("option", "minDate", startDate);
+                endDateInput.datepicker("option", "maxDate", endDate);
+            });
+        });
+    </script>    
+</head>
+<body>
+    <form method="POST">
+    <h1>Select a Year and Date Range</h1>
+    <label for="season_year">Select a Year:</label>
+    <select id="season_year" name="season_year"></select>
+    <br>
+    <label for="start_date">Start Date:</label>
+    <input type="text" id="start_date" name="start_date">
+    <br>
+    <label for="end_date">End Date:</label>
+    <input type="text" id="end_date" name="end_date">
+    <br>
+    <button type="submit" value="Submit">Submit</button>
+    </form>
+    {% if table %}
+        {{ table | safe }}
+    {% endif %}
+</body>
+{% endblock content %}
+
