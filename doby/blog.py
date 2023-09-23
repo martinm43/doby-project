@@ -50,18 +50,6 @@ def pred_table():
         return render_template('blog/pred.html',table = results_table)
     return render_template('blog/pred.html')
 
-@bp.route('/info',methods=['GET','POST'])
-def info_table():
-    if request.method =='POST':
-
-        season_year = int(request.form['season_year'])
-        start_datetime = datetime(season_year,3,22)
-        end_datetime = datetime(season_year, 11,1)
-        results_table = results_table_function(season_year, start_datetime, end_datetime)
-
-        return render_template('blog/info.html',table = results_table)
-    return render_template('blog/info.html')
-
 @bp.route('/info_datepicker',methods=['GET','POST'])
 def info_table_datepicker():
     if request.method =='POST':
