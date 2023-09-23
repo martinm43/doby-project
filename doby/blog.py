@@ -78,7 +78,7 @@ def info_table_datepicker():
         season_year = 2023
         season_year_str = str(season_year)
         start_datetime_str = datetime(season_year,3,22).strftime('%Y-%m-%d')
-        end_datetime_str = (datetime.today()-timedelta(days=1)).strftime('%Y-%m-%d')
+        end_datetime_str = datetime(season_year,11,1).strftime('%Y-%m-%d')
 
         
     return render_template('blog/info_datepicker.html', season_year=season_year, start_date=start_datetime_str, end_date=end_datetime_str)
