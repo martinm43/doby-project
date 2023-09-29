@@ -30,6 +30,8 @@ for season_year_start in range(start_year,end_year,-1):
     file_path = (base_path / filestr).resolve()
     df = pd.read_csv(file_path, thousands=',')
     df = df.rename(columns={"R":"HomeTeamRuns","RA":"AwayTeamRuns","Unnamed: 2":"dummy"})
+    if season_year_start >= 2023:
+        df = df.loc[df["Gm#"]<=162] #eliminates playoff games for 2023 season
     df = df.drop(columns=["Gm#","dummy"])
     # Convert date into standard date object
     df["Date"] = df["Date"].astype(str)
