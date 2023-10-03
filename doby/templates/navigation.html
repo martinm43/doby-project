@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation Page</title>
+</head>
+<body>
+    <h1>Navigation Menu</h1>
+    <ul>
+        <li><a href="{{ url_for('blog.plot') }}">Plot Season Playoff Odds</a></li>
+        <li><a href="{{ url_for('blog.info_table_datepicker') }}">Get Information About Season Between Dates</a></li>
+        <li><a href="{{ url_for('blog.pred_table') }}">Generate Playoff Odds Prediction Table</a></li>
+        <li><a href="{{ url_for('blog.elo') }}">Team Historical Elo</a></li>
+        <li><a href="{{ url_for('blog.srs') }}">Team Historical SRS</a></li>
+    </ul>
+</body>
+</html>
+{% endblock content %}

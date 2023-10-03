@@ -1,5 +1,5 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Analytics Engine</title>
+<title>{% block title %}{% endblock %}Analytics Engine</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
   <h1>Analytics Engine</h1>
@@ -7,9 +7,11 @@
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+        <li><a href="{{ url_for('blog.navigation') }}">Navigation</a></li>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
+        <li><a href="{{ url_for('blog.navigation') }}">Navigation</a></li>
     {% endif %}
   </ul>
 </nav>

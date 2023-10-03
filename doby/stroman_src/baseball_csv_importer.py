@@ -8,20 +8,30 @@ TO BE EDITED:
 from pprint import pprint
 import pandas as pd
 from datetime import datetime
+import subprocess
 
 from mlb_database.mlb_models import Games, database
 from mlb_database.queries import abbrev_to_id
+
+from pathlib import Path
+
 
 SQLITE_MAX_VARIABLE_NUMBER = 100
 
 
 start_year = 2023
 end_year = 2022
+base_path = Path(__file__).parent
+
+
 season_dict_list=[]
 for season_year_start in range(start_year,end_year,-1):
-
-    df = pd.read_csv("data/"+str(season_year_start)+"Games.csv", thousands=',')
+    filestr = "data/"+str(season_year_start)+"Games.csv"
+    file_path = (base_path / filestr).resolve()
+    df = pd.read_csv(file_path, thousands=',')
     df = df.rename(columns={"R":"HomeTeamRuns","RA":"AwayTeamRuns","Unnamed: 2":"dummy"})
+    if season_year_start >= 2023:
+        df = df.loc[df["Gm#"]<=162] #eliminates playoff games for 2023 season
     df = df.drop(columns=["Gm#","dummy"])
     # Convert date into standard date object
     df["Date"] = df["Date"].astype(str)
@@ -77,7 +87,9 @@ for season_year_start in range(start_year,end_year,-1):
     print("Year "+str(season_year_start)+" is now complete")
     
     #Games.insert_many(season_dict_list).on_conflict_replace().execute()
-    
+
+
+
 with database.atomic() as txn:
     size = (SQLITE_MAX_VARIABLE_NUMBER // len(season_dict_list[0])) - 1
     # remove one to avoid issue if peewee adds some variable

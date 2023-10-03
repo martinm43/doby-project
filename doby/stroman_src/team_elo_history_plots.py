@@ -40,7 +40,7 @@ def team_plot_function(team_id):
         "SELECT primary_color from teams where team_id=" + str(team_id)
     )
     s = cursor.fetchall()
-
+    plt.figure(figsize=(8, 8))
     plt.plot(
         df["epochtime"],
         df["elo_rating"].rolling(rolling_average).mean(),

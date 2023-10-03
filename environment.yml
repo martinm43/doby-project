@@ -1,0 +1,14 @@
+name: sda_env
+channels:
+  - defaults
+dependencies:
+  - matplotlib
+  - numpy
+  - scipy
+  - pandas
+  - pytest
+  - cython
+  - bs4
+  - lxml
+  - flask
+prefix: /Users/martin/anaconda3/envs/sda_env
