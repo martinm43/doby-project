@@ -1,5 +1,4 @@
 from doby import create_app
-import os
 
 def test_home_page_post_with_fixture(test_client):
     """
@@ -34,6 +33,36 @@ def test_plot_season_odds(test_client):
     -response code 200
     """
     response = test_client.get('/plot')
+    assert response.status_code == 200
+
+def test_plot_season_odds(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/plot' page is requested (GET)
+    THEN check the following conditions:
+    -response code 200
+    """
+    response = test_client.get('/plot')
+    assert response.status_code == 200
+
+def test_plot_season_odds(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/plot' page is requested (GET)
+    THEN check the following conditions:
+    -response code 200
+    """
+    response = test_client.get('/plot')
+    assert response.status_code == 200
+
+def test_elo_season_odds(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/elo' page is requested (GET)
+    THEN check the following conditions:
+    -response code 200
+    """
+    response = test_client.get('/elo')
     assert response.status_code == 200
 
 

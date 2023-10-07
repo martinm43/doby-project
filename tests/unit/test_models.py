@@ -1,4 +1,4 @@
-from doby.stroman_src.mlb_database.mlb_models import SRS, Ratings, Games
+from doby.stroman_src.mlb_database.mlb_models import SRS, Ratings, Games, Teams
 
 def test_srs_ratings():
     """
@@ -34,3 +34,4 @@ def test_games():
     blank_away_team_ids = [z.away_team_id for z in x if (z.away_team_id == 0 or z.away_team_id == None)]
     assert len(blank_home_team_ids) == 0
     assert len(blank_away_team_ids) == 0
+
