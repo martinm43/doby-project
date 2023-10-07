@@ -77,8 +77,6 @@ def test_srs_rating_calculation_order():
     Then the ratings are in order
     Editor's note: if this test fails the other (accuracy) test failed too
     """
-    tol = 0.2
-    errcount = 6
     maxdatetime = SRS.select(fn.MAX(SRS.epochtime)).where(SRS.year==2017)
     maxSRS = SRS.select().where(SRS.epochtime==maxdatetime)
     calcSRSratings = [(x.team_abbreviation,x.srs_rating) for x in maxSRS]
