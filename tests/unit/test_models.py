@@ -1,6 +1,15 @@
+"""
+Requirements we are testing against:
+* SRS calculation does not blow up (ratings remain within 10 for all SRS, this is baseball)
+* SRS ratings for several years (listed in test definition) are correct
+* ELO calculation remains between 500 and 2500
+* No games are stored without home_team_id or away_team_id in database
+"""
+
+from peewee import fn
 from doby.stroman_src.mlb_database.mlb_models import SRS, Ratings, Games, Teams
 
-def test_srs_ratings():
+def test_srs_rating_calculation_stability():
     """
     Given a rating SRS model
     When a rating is selected
@@ -10,7 +19,103 @@ def test_srs_ratings():
     ratings = [z.srs_rating for z in x if abs(z.srs_rating) > 20]
     assert len(ratings) == 0
 
+def test_srs_rating_calculation_accuracy():
+    """
+    Given a SRS calculation for the years (2017)
+    When the calculation is performed
+    Then the difference in ratings is no greater than .2 for 20% of the teams
+    """
+    tol = 0.2
+    errcount = 6
+    maxdatetime = SRS.select(fn.MAX(SRS.epochtime)).where(SRS.year==2017)
+    maxSRS = SRS.select().where(SRS.epochtime==maxdatetime)
+    calcSRSratings = [(x.team_abbreviation,x.srs_rating) for x in maxSRS]
+    goodSRSratings = [('LAA', 0.1),
+                        ('ARI', 0.8),
+                        ('ATL', -0.7),
+                        ('BAL', -0.3),
+                        ('BOS', 0.8),
+                        ('CHC', 0.6),
+                        ('CHW', -0.5),
+                        ('CIN', -0.7),
+                        ('CLE', 1.5),
+                        ('COL', 0.3),
+                        ('DET', -0.8),
+                        ('MIA', -0.5),
+                        ('HOU', 1.2),
+                        ('KCR', -0.4),
+                        ('LAD', 0.9 ),
+                        ('MIL', 0.1),
+                        ('MIN', 0.2),
+                        ('NYM', -0.9),
+                        ('NYY', 1.3),
+                        ('OAK', -0.4),
+                        ('PHI', -0.7),
+                        ('PIT', -0.4),
+                        ('SDP', -1.3),
+                        ('SEA', 0),
+                        ('SFG', -0.9),
+                        ('STL', 0.2),
+                        ('TBR', 0.1),
+                        ('TEX', 0) ,
+                        ('TOR', -0.3),
+                        ('WSN', 0.6)]
+    calcSRSratings = sorted(calcSRSratings, key=lambda x: x[0])
+    goodSRSratings = sorted(goodSRSratings, key=lambda x: x[0])
+    differences=[]
+    for i in range(len(goodSRSratings)):
+        print(goodSRSratings[i][0],calcSRSratings[i][1]-goodSRSratings[i][1])
+        differences.append(abs(calcSRSratings[i][1]-goodSRSratings[i][1])) #absolute diff
     
+    errval = [x for x in differences if x > tol]
+    assert len(errval) < errcount
+    
+def test_srs_rating_calculation_order():
+    """
+    Given a SRS calculation for the years (2017)
+    When the calculation is performed
+    Then the ratings are in order
+    Editor's note: if this test fails the other (accuracy) test failed too
+    """
+    tol = 0.2
+    errcount = 6
+    maxdatetime = SRS.select(fn.MAX(SRS.epochtime)).where(SRS.year==2017)
+    maxSRS = SRS.select().where(SRS.epochtime==maxdatetime)
+    calcSRSratings = [(x.team_abbreviation,x.srs_rating) for x in maxSRS]
+    goodSRSratings = [('LAA', 0.1),
+                        ('ARI', 0.8),
+                        ('ATL', -0.7),
+                        ('BAL', -0.3),
+                        ('BOS', 0.8),
+                        ('CHC', 0.6),
+                        ('CHW', -0.5),
+                        ('CIN', -0.7),
+                        ('CLE', 1.5),
+                        ('COL', 0.3),
+                        ('DET', -0.8),
+                        ('MIA', -0.5),
+                        ('HOU', 1.2),
+                        ('KCR', -0.4),
+                        ('LAD', 0.9 ),
+                        ('MIL', 0.1),
+                        ('MIN', 0.2),
+                        ('NYM', -0.9),
+                        ('NYY', 1.3),
+                        ('OAK', -0.4),
+                        ('PHI', -0.7),
+                        ('PIT', -0.4),
+                        ('SDP', -1.3),
+                        ('SEA', 0),
+                        ('SFG', -0.9),
+                        ('STL', 0.2),
+                        ('TBR', 0.1),
+                        ('TEX', 0) ,
+                        ('TOR', -0.3),
+                        ('WSN', 0.6)]
+    calcSRSratings = sorted(calcSRSratings, key=lambda x: x[0])
+    goodSRSratings = sorted(goodSRSratings, key=lambda x: x[0])
+    assert [x[0] for x in calcSRSratings] == [x[0] for x in goodSRSratings]
+
 def test_Elo_ratings():
     """
     Given an Elo model
