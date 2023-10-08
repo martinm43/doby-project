@@ -128,6 +128,7 @@ dependencies:
       - flawfinder==2.0.19
       - frozenlist==1.4.0
       - greenlet==2.0.2
+      - gunicorn-20.1.0
       - itsdangerous==2.1.2
       - jsonschema==4.19.1
       - jsonschema-specifications==2023.7.1
