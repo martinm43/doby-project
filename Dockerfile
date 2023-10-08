@@ -33,14 +33,14 @@ SHELL ["conda", "run", "-n", "sda_env", "/bin/bash", "-c"]
 # only the simulation part not the part needed for ingestion
 RUN cd doby/stroman_src/predict/cython_mcss && ./ext_build.sh
 
-RUN echo "Making sure flask is installed correctly."
-RUN python -c "import flask"
+#RUN echo "Making sure flask is installed correctly."
+#RUN python -c "import flask"
 
 # Expose the port your Flask app will run on
 EXPOSE 5000
 
 #Last three lines are pending testing Oct 8.
-RUN conda init
-RUN conda activate sda_env
+#RUN conda init bash
+#RUN conda activate sda_env
 # Specify the command to run your Flask app
-CMD ["python","-m","flask", "--app","doby","--debug","run","--host","0.0.0.0"]
+#CMD ["python","-m","flask", "--app","doby","--debug","run","--host","0.0.0.0"]
