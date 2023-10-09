@@ -1,0 +1,36 @@
+# Python-specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.swp
+*.swo
+*.vscode/
+*.idea/
+
+# C++-specific ignores
+build/
+bin/
+*.o
+*.out
+*.so
+*.a
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+Makefile
+*.cmake
+*.cmake.in
+*.swp
+*.swo
+*.vscode/
+*.idea/
+*.user
+
+# General ignores (optional, adjust as needed)
+node_modules/
+__MACOSX/
+.DS_Store
+Thumbs.db
+
