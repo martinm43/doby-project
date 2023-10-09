@@ -27,7 +27,6 @@ from doby.stroman_src.mlb_database.queries import (
 from doby.stroman_src.mlb_database.mlb_models import Games
 
 # Analytics imports
-from doby.stroman_src.analytics.SRS import SRS
 from doby.stroman_src.analytics.pythag import league_pythagorean_wins
 from random import randint
 

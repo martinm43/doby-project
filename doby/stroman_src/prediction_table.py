@@ -9,7 +9,7 @@ and allow for integration with more 'modern' interfaces -think flask or Django
 
 #from predict.cython_mcss.mcss_ext2 import simulations_result_vectorized
 from doby.stroman_src.mlb_database.mlb_models import Teams
-from doby.stroman_src.mlb_database.queries import elo_ratings_list, epochtime, team_abbreviation
+from doby.stroman_src.mlb_database.queries import new_elo_ratings_list, epochtime, team_abbreviation
 from datetime import datetime, timedelta
 #import inspect #spyder debug
 from pprint import pprint
@@ -40,7 +40,7 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
     #global local_vars
 
     from doby.stroman_src.predict.cython_mcss.mcss_ext2 import simulations_result_vectorized
-    from doby.stroman_src.analytics.SRS import SRS
+    from doby.stroman_src.mlb_database.queries import new_srs_ratings_list
     from doby.stroman_src.analytics.morey import SRS_regress, Elo_regress
 
     from doby.stroman_src.mlb_database.queries import games_query, games_won_query, future_games_query
@@ -100,9 +100,7 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
 
     if ratings_mode == "SRS":
         # Get Team Ratings (and create Team object list)
-        ratings_list = SRS(
-            games_query(start_datetime, end_datetime)
-        ).tolist()  # get ratings for that time.
+        ratings_list = new_srs_ratings_list(epochtime(end_datetime))  # get ratings for that time.
 
         for i, x in enumerate(teams_list):
             x.append(ratings_list[i])
@@ -116,7 +114,7 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
             x.append(SRS_regress(SRS_diff))
 
     if ratings_mode == "Elo":
-        ratings_list = elo_ratings_list(epochtime(end_datetime))
+        ratings_list = new_elo_ratings_list(epochtime(end_datetime))
         for i, x in enumerate(teams_list):
             x.append(ratings_list[i])
             for j in range(1, 5):  # "all strings"
