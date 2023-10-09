@@ -29,5 +29,5 @@ RUN cd doby/stroman_src/predict/cython_mcss && ./ext_build.sh
 EXPOSE 5000
 
 # Specify the command to run your Flask app
-CMD ["python","-m","flask", "--app","doby","--debug","run","--host","0.0.0.0"]
+#CMD ["python","-m","flask", "--app","doby","--debug","run","--host","0.0.0.0"]
 
