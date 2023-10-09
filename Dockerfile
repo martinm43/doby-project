@@ -16,14 +16,14 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev
 
-
-
-
 # Install Python dependencies
 #RUN pip install -r requirements.txt
 
 # Create a new Conda environment
 RUN conda env create --file environment.yml
+
+# Clean after creation
+RUN conda clean -afy
 
 # Create and activate a Conda environment
 #RUN conda env create -f environment.yml
