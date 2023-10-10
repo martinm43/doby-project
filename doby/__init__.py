@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use('agg')
 from matplotlib import pyplot as plt
 from doby.stroman_src.team_srs_history_plots import team_plot_function 
-import numpy as np
+
 import io
 import base64
 
