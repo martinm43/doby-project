@@ -66,8 +66,7 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
 
     # Get List Of Known Wins
     games_list = games_query(start_datetime, end_datetime)
-    games_won_list_cpp = games_won_query(games_list, return_format="matrix").tolist()
-
+    games_won_list_cpp = games_won_query(games_list, return_format="matrix")
     # Get team data.
     teams_list = Teams.select().order_by(Teams.team_id)
     teams_list = [
