@@ -192,12 +192,13 @@ def games_won_query(played_games, return_format="list"):
             winrows.append(winlist.count(i))
         return_value = winrows
     elif return_format == "matrix":
-        win_matrix = np.zeros((30, 30))
+        #win_matrix = np.zeros((30, 30))
+        win_matrix = [[0 for _ in range(30)] for _ in range(30)]
         for x in played_games:
             if x[1] > x[3]:
-                win_matrix[x[0] - 1, x[2] - 1] += 1
+                win_matrix[x[0] - 1][x[2] - 1] += 1
             elif x[3] > x[1]:
-                win_matrix[x[2] - 1, x[0] - 1] += 1
+                win_matrix[x[2] - 1][x[0] - 1] += 1
         return win_matrix
     else:
         print("invalid option")
