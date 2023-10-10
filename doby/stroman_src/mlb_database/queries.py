@@ -5,7 +5,6 @@
 # Choose working directory.
 from .mlb_models import Games
 import time, datetime
-import numpy as np
 
 ###################
 # Time Conversion #
