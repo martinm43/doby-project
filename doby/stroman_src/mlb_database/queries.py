@@ -41,7 +41,8 @@ def team_abbreviation(team_alphabetical_id):
     Converts team numerical ids into team names.
     """
     from .mlb_models import Teams
-    #print(team_alphabetical_id)
+
+    # print(team_alphabetical_id)
     s_query = Teams.select(Teams.abbreviation).where(
         Teams.team_id == team_alphabetical_id
     )
@@ -55,7 +56,7 @@ def team_abbreviation(team_alphabetical_id):
 #     Team id
 
 #     Input: a string representing the team's name
-#     Output: a team id - 
+#     Output: a team id -
 #     """
 #     # Adjusting for previous team names/previous team locations.
 #     # if full_team_name == "New Jersey Nets":
@@ -85,8 +86,9 @@ def abbrev_to_id(team_abbrev):
     Output: numerical id e.g. "1"
     """
     from .mlb_models import Teams
-    #print(team_abbrev)
-    
+
+    # print(team_abbrev)
+
     if team_abbrev == "FLA":
         team_abbrev = "MIA"
     if team_abbrev == "TBD":
@@ -95,9 +97,7 @@ def abbrev_to_id(team_abbrev):
         team_abbrev = "LAA"
     if team_abbrev == "MON":
         team_abbrev = "WSN"
-    s_query = Teams.select(Teams.team_id).where(
-        Teams.abbreviation == team_abbrev
-    )
+    s_query = Teams.select(Teams.team_id).where(Teams.abbreviation == team_abbrev)
     s_result = s_query[0]
     return s_result.team_id
 
@@ -134,13 +134,14 @@ def games_query(start_datetime, end_datetime):
         .where(
             Games.epochtime < end_epochtime,
             Games.epochtime > start_epochtime,
-            ((Games.away_team_runs > 0)|(Games.home_team_runs > 0)),
+            ((Games.away_team_runs > 0) | (Games.home_team_runs > 0)),
         )
         .order_by(Games.epochtime)
     )
 
     played_games = [
-        [g.away_team_id, g.away_team_runs, g.home_team_id, g.home_team_runs] for g in played_games
+        [g.away_team_id, g.away_team_runs, g.home_team_id, g.home_team_runs]
+        for g in played_games
     ]
     return played_games
 
@@ -153,7 +154,10 @@ def season_query(season_year):
 
     played_games = (
         Games.select()
-        .where(Games.year == season_year, ((Games.away_team_runs > 0)|(Games.home_team_runs > 0)))
+        .where(
+            Games.year == season_year,
+            ((Games.away_team_runs > 0) | (Games.home_team_runs > 0)),
+        )
         .order_by(Games.epochtime)
     )
 
@@ -247,22 +251,25 @@ def form_query(team_id):
     }
     q = Games.select().where(
         ((Games.away_team_id == team_id) | (Games.home_team_id == team_id))
-        & ((Games.away_team_runs > 0)|(Games.home_team_runs > 0))
+        & ((Games.away_team_runs > 0) | (Games.home_team_runs > 0))
     )
-    x = [[z.away_team_id, z.away_team_runs, z.home_team_id, z.home_team_runs] for z in q[-5:]]
+    x = [
+        [z.away_team_id, z.away_team_runs, z.home_team_id, z.home_team_runs]
+        for z in q[-5:]
+    ]
     winstring = ""
     for g in x:
-        #print(g)
+        # print(g)
         if g[1] > g[3]:
             if g[0] == team_id:
-                winstring += "W" 
+                winstring += "W"
             else:
-                winstring += "L" 
+                winstring += "L"
         if g[3] > g[1]:
             if g[0] == team_id:
-                winstring +=  "L" 
+                winstring += "L"
             else:
-                winstring +=  "W" 
+                winstring += "W"
     return winstring
 
 
@@ -288,7 +295,7 @@ def team_elo_rating(team_id, epochtime):
 
     rtg_iterable = (
         MlbTeamEloData.select()
-        .where(MlbTeamEloData.team_id == team_id, MlbTeamEloData.datetime<= epochtime)
+        .where(MlbTeamEloData.team_id == team_id, MlbTeamEloData.datetime <= epochtime)
         .order_by(MlbTeamEloData.datetime.desc())
         .limit(1)
     )
@@ -335,17 +342,17 @@ def new_team_elo_rating(team_id, epochtime):
 
     rtg_iterable = (
         Ratings.select()
-        .where(Ratings.team_id == team_id, Ratings.epochtime<= epochtime)
+        .where(Ratings.team_id == team_id, Ratings.epochtime <= epochtime)
         .order_by(Ratings.epochtime.desc())
         .limit(1)
     )
     rtg = [x.elo_rating for x in rtg_iterable]
-    #print(rtg)
+    # print(rtg)
     try:
         rtg = rtg[0]
         return rtg
     except IndexError as e:
-        print("ratings don't exist for team "+str(team_id))
+        print("ratings don't exist for team " + str(team_id))
         return 0
 
 
@@ -367,6 +374,7 @@ def new_elo_ratings_list(epochtime):
         ratings_list.append(new_team_elo_rating(i, epochtime))
     return ratings_list
 
+
 def new_team_srs_rating(team_id, epochtime):
     """
     Get the most recent srs rating for a team given a date and the team_id
@@ -386,18 +394,19 @@ def new_team_srs_rating(team_id, epochtime):
 
     rtg_iterable = (
         SRS.select()
-        .where(SRS.team_id == team_id, SRS.epochtime<= epochtime)
+        .where(SRS.team_id == team_id, SRS.epochtime <= epochtime)
         .order_by(SRS.epochtime.desc())
         .limit(1)
     )
     rtg = [x.srs_rating for x in rtg_iterable]
-    #print(rtg)
+    # print(rtg)
     try:
         rtg = rtg[0]
         return rtg
     except IndexError as e:
-        print("ratings don't exist for team "+str(team_id))
+        print("ratings don't exist for team " + str(team_id))
         return 0
+
 
 def new_srs_ratings_list(epochtime):
     """
@@ -416,5 +425,3 @@ def new_srs_ratings_list(epochtime):
     for i in range(1, 31):
         ratings_list.append(new_team_srs_rating(i, epochtime))
     return ratings_list
-
-

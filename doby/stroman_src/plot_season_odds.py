@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
-from pprint import pprint 
+from pprint import pprint
 
 import random
 import io
@@ -73,21 +73,19 @@ except KeyError:
     sys.exit(1) """
 
 
-
 def plot_season_odds(season_year, division_name, ratings_mode):
     a = datetime(season_year, 3, 20)
     b = datetime(season_year, 4, 10)
     end = min(datetime(season_year, 11, 1), datetime.today())
 
-    if season_year == 2020:    
+    if season_year == 2020:
         a = datetime(season_year, 7, 23)
         b = datetime(season_year, 8, 5)
-        end = datetime(season_year,10,29)
+        end = datetime(season_year, 10, 29)
 
     if b >= end:
         print("Error in script, check first calc and end date")
         sys.exit(1)
-
 
     # Python Moving Average, taken by:
     # https://stackoverflow.com/questions/13728392/moving-average-or-running-mean
@@ -96,12 +94,9 @@ def plot_season_odds(season_year, division_name, ratings_mode):
         cumsum = np.cumsum(np.insert(x, 0, 0))
         return (cumsum[N:] - cumsum[:-N]) / N
 
-
     team_labels = [team_abbreviation(i) for i in range(1, 31)]
 
-
-
-    #Choosing appropriate divisions
+    # Choosing appropriate divisions
     if season_year >= 2013:
         print("ONE")
         query = Teams.select().where(Teams.division == division_name)
@@ -119,8 +114,6 @@ def plot_season_odds(season_year, division_name, ratings_mode):
         query = Teams.select().where(Teams.legacy_divisions_3 == division_name)
         division_team_id_list = [i.team_id for i in query]
 
-
-
     # Odds calculations
     odds_list = []
     x_odds = playoff_odds_calc(a, b, season_year)
@@ -131,26 +124,20 @@ def plot_season_odds(season_year, division_name, ratings_mode):
     dates_list = []
     dates_list.append(b)
 
-
-
     while b < end:
-        
         x_odds = playoff_odds_calc(a, b, season_year, ratings_mode=ratings_mode)
 
-        #print(b)
-        #pprint(x_odds)
+        # print(b)
+        # pprint(x_odds)
 
         x_odds = [x[4] for x in x_odds]
 
         odds_list.append(x_odds)
         dates_list.append(b)
-        print("Finished processing "+b.strftime("%m %d %Y"))
-        b = b + timedelta(days=4) #1
-
-
+        print("Finished processing " + b.strftime("%m %d %Y"))
+        b = b + timedelta(days=4)  # 1
 
     odds_array = np.asarray(odds_list)
-
 
     plt.figure(figsize=(6, 6))
     plt.ylim(-5, 105)  # so 100 shows up on the graph, and 0 (thanks V.)
@@ -164,9 +151,9 @@ def plot_season_odds(season_year, division_name, ratings_mode):
         average_team_data = running_mean(team_data, average_count)
         average_dates_list = dates_list[average_count - 1 :]
         # plt.plot(dates_list,team_data)
-        label_str = label=team_abbreviation(team_id + 1)
+        label_str = label = team_abbreviation(team_id + 1)
         if label_str == "WSN" and season_year <= 2004:
-            label_str = "MON" #Expos correction.
+            label_str = "MON"  # Expos correction.
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d"))
         plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=14))
         plt.plot(
@@ -180,20 +167,23 @@ def plot_season_odds(season_year, division_name, ratings_mode):
     plt.ylabel("Team Playoff Odds")
     plt.title(
         division_name
-        + " Playoff Odds, "+ratings_mode+", "
-    + str(season_year)
-    + "\n (includes wild card(s) if applicable. Invalid for 1994, 1981)"
+        + " Playoff Odds, "
+        + ratings_mode
+        + ", "
+        + str(season_year)
+        + "\n (includes wild card(s) if applicable. Invalid for 1994, 1981)"
     )
     plt.legend()
     plt.xticks(rotation=15)
     img_stream = io.BytesIO()
-    plt.savefig(img_stream, format='png')
+    plt.savefig(img_stream, format="png")
     img_stream.seek(0)
     img_base64 = base64.b64encode(img_stream.read()).decode()
     return img_base64
+
 
 if __name__ == "__main__":
     season_year = 2023
     division_name = "NL Central"
     ratings_mode = "Elo"
-    plot_season_odds(season_year,division_name,ratings_mode)
+    plot_season_odds(season_year, division_name, ratings_mode)

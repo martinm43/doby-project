@@ -7,11 +7,16 @@ and allow for integration with more 'modern' interfaces -think flask or Django
 
 # Future import first
 
-#from predict.cython_mcss.mcss_ext2 import simulations_result_vectorized
+# from predict.cython_mcss.mcss_ext2 import simulations_result_vectorized
 from doby.stroman_src.mlb_database.mlb_models import Teams
-from doby.stroman_src.mlb_database.queries import new_elo_ratings_list, epochtime, team_abbreviation
+from doby.stroman_src.mlb_database.queries import (
+    new_elo_ratings_list,
+    epochtime,
+    team_abbreviation,
+)
 from datetime import datetime, timedelta
-#import inspect #spyder debug
+
+# import inspect #spyder debug
 from pprint import pprint
 
 
@@ -37,13 +42,19 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
 
     """
 
-    #global local_vars
+    # global local_vars
 
-    from doby.stroman_src.predict.cython_mcss.mcss_ext2 import simulations_result_vectorized
+    from doby.stroman_src.predict.cython_mcss.mcss_ext2 import (
+        simulations_result_vectorized,
+    )
     from doby.stroman_src.mlb_database.queries import new_srs_ratings_list
     from doby.stroman_src.analytics.morey import SRS_regress, Elo_regress
 
-    from doby.stroman_src.mlb_database.queries import games_query, games_won_query, future_games_query
+    from doby.stroman_src.mlb_database.queries import (
+        games_query,
+        games_won_query,
+        future_games_query,
+    )
 
     # Test results/inputs
     if end_datetime < start_datetime:
@@ -66,33 +77,32 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
 
     # Team Name/Division Fixes
     for x in teams_list:
-        if x[0] == 13 and season_year <= 2012: #Houston
+        if x[0] == 13 and season_year <= 2012:  # Houston
             x[4] = "NL"
             x[3] = "NL Central"
-            
-        if x[0] == 16 and season_year <= 1997: #Milwaukee
+
+        if x[0] == 16 and season_year <= 1997:  # Milwaukee
             x[4] = "AL"
             x[3] = "AL Central"
-        
-        if x[0] == 11 and season_year <= 1997: #Detroit
+
+        if x[0] == 11 and season_year <= 1997:  # Detroit
             x[3] = "AL East"
-        
-        if x[0] == 30 and season_year <= 2004: #The Expos should never have left
+
+        if x[0] == 30 and season_year <= 2004:  # The Expos should never have left
             x[1] = "Montreal Expos"
             x[2] = "MON"
 
         if season_year <= 1993:
-            if x[0] in [9,11,16]: #to AL East
+            if x[0] in [9, 11, 16]:  # to AL East
                 x[3] = "AL East"
-            if x[0] in [7,14,17]: #to AL West
+            if x[0] in [7, 14, 17]:  # to AL West
                 x[3] = "AL West"
-            if x[0] in [26,6,22]: #to NL East
+            if x[0] in [26, 6, 22]:  # to NL East
                 x[3] = "NL East"
-            if x[0] in [13,8,3]: #to NL West
-                x[3] = "NL West"    
+            if x[0] in [13, 8, 3]:  # to NL West
+                x[3] = "NL West"
 
-
-    #pprint(teams_list)
+    # pprint(teams_list)
 
     # Get future games (away_team, home_team, home_team_win_probability)
 
@@ -100,7 +110,9 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
 
     if ratings_mode == "SRS":
         # Get Team Ratings (and create Team object list)
-        ratings_list = new_srs_ratings_list(epochtime(end_datetime))  # get ratings for that time.
+        ratings_list = new_srs_ratings_list(
+            epochtime(end_datetime)
+        )  # get ratings for that time.
 
         for i, x in enumerate(teams_list):
             x.append(ratings_list[i])
@@ -127,17 +139,18 @@ def playoff_odds_calc(start_datetime, end_datetime, season_year, ratings_mode="E
             x.append(Elo_regress(Elo_diff))
 
     team_results = simulations_result_vectorized(
-        games_won_list_cpp, future_games_list, teams_list,season_year
+        games_won_list_cpp, future_games_list, teams_list, season_year
     )
     # Return (top 8 odds, average wins, top 6 odds, and play in tournament odds).
     team_results = [
-        [x[0] * 100.0, x[1], x[2] * 100.0, x[3] * 100.0, 100.0*(x[0]+x[2]+x[3])] for x in team_results
+        [x[0] * 100.0, x[1], x[2] * 100.0, x[3] * 100.0, 100.0 * (x[0] + x[2] + x[3])]
+        for x in team_results
     ]
-    #local_vars = inspect.currentframe().f_locals #spyder debug
+    # local_vars = inspect.currentframe().f_locals #spyder debug
     return team_results
 
 
-def playoff_odds_print(team_results,season_year=9999):
+def playoff_odds_print(team_results, season_year=9999):
     """
     Prints table based on alphabetically ordered team results matrix.
     Team results are the output of playoff_odds_calc.
@@ -156,10 +169,7 @@ def playoff_odds_print(team_results,season_year=9999):
         for i in teams
     ]
 
-    
-
     for i, d in enumerate(teams_dict):
-    
         if d["Team"] == "HOU" and season_year <= 2012:
             d["Division"] = "NL Central"
 
@@ -168,22 +178,22 @@ def playoff_odds_print(team_results,season_year=9999):
 
         if d["Team"] == "DET" and season_year <= 1997:
             d["Division"] = "AL East"
-        
+
         if d["Team"] == "WSN" and season_year <= 2004:
             d["Team"] = "MON"
-        
-        #1977-1993 fix.
-        if season_year <= 1993:
-            if d["Team"] in ["DET","CLE","MIL"]: #to AL East
-                d["Division"] = "AL East"
-            if d["Team"] in ["CHW","KCR","MIN"]: #to AL West
-                d["Division"] = "AL West"
-            if d["Team"] in ["STL","CHC","PIT"]: #to NL East
-                d["Division"] = "NL East"
-            if d["Team"] in ["ATL","CIN","HOU"]: #to NL West
-                d["Division"] = "NL West"   
 
-        #print(d)
+        # 1977-1993 fix.
+        if season_year <= 1993:
+            if d["Team"] in ["DET", "CLE", "MIL"]:  # to AL East
+                d["Division"] = "AL East"
+            if d["Team"] in ["CHW", "KCR", "MIN"]:  # to AL West
+                d["Division"] = "AL West"
+            if d["Team"] in ["STL", "CHC", "PIT"]:  # to NL East
+                d["Division"] = "NL East"
+            if d["Team"] in ["ATL", "CIN", "HOU"]:  # to NL West
+                d["Division"] = "NL West"
+
+        # print(d)
 
         d["Hist. Playoff %"] = round(team_results[i][0], 1)
         d["Avg. Wins"] = round(team_results[i][1], 1)
@@ -197,11 +207,11 @@ def playoff_odds_print(team_results,season_year=9999):
         d["WC %"] = format_percent(d["WC %"])
         d["Total %"] = format_percent(d["Total %"])
 
-    #pprint(teams_dict)
+    # pprint(teams_dict)
 
     teams_dict.sort(key=lambda x: (x["Division"], -x["Avg. Wins"]))
 
-    #Remove zero entries.
+    # Remove zero entries.
     teams_dict = [x for x in teams_dict if x["Avg. Wins"] != 0]
 
     team_tuples = [
@@ -212,7 +222,7 @@ def playoff_odds_print(team_results,season_year=9999):
             d["Hist. Playoff %"],
             d["WC %"],
             d["Div 2nd %"],
-            d["Total %"]
+            d["Total %"],
         )
         for d in teams_dict
     ]
@@ -226,9 +236,9 @@ def playoff_odds_print(team_results,season_year=9999):
             "Div. %",
             "WC %",
             "Div. 2nd %\n(2020 only)",
-            "TOTAL"
+            "TOTAL",
         ],
-        tablefmt="html", #changed from rst
+        tablefmt="html",  # changed from rst
         numalign="left",
     )
     return results_table
@@ -237,22 +247,27 @@ def playoff_odds_print(team_results,season_year=9999):
 # Print your results:
 
 if __name__ == "__main__":
-
     from random import randint
-    season_year = 2023 # year in which season ends
-    print("Testing year: "+str(season_year))
+
+    season_year = 2023  # year in which season ends
+    print("Testing year: " + str(season_year))
     start_datetime = datetime(season_year, 3, 22)  # start of season
-    end_datetime = datetime.today()-timedelta(days=1) # a few weeks or months in
-    # end_datetime = datetime(season_year,11,15) 
+    end_datetime = datetime.today() - timedelta(days=1)  # a few weeks or months in
+    # end_datetime = datetime(season_year,11,15)
     # in-season option: end_datetime = datetime.today()-timedelta(days=1)
 
     ratings_mode = "Elo"
-    print("Working mode is "+ratings_mode)
+    print("Working mode is " + ratings_mode)
     results = playoff_odds_calc(
-        start_datetime, end_datetime, season_year, ratings_mode=ratings_mode)
+        start_datetime, end_datetime, season_year, ratings_mode=ratings_mode
+    )
 
-    results_table = playoff_odds_print(playoff_odds_calc(
-        start_datetime, end_datetime, season_year, ratings_mode=ratings_mode),season_year=season_year)
+    results_table = playoff_odds_print(
+        playoff_odds_calc(
+            start_datetime, end_datetime, season_year, ratings_mode=ratings_mode
+        ),
+        season_year=season_year,
+    )
 
     print(
         "Playoff odds for the "
@@ -263,6 +278,7 @@ if __name__ == "__main__":
     print(results_table)
     print("Notes:")
     print("* No tiebreakers (e.g. division record) are considered")
-    print("* For the 1981 season, the 'split season' model is not yet implemented.\nDiscussion of the Split Season schedule can be found at https://www.baseball-reference.com/bullpen/1981_Split_Season_Schedule")
+    print(
+        "* For the 1981 season, the 'split season' model is not yet implemented.\nDiscussion of the Split Season schedule can be found at https://www.baseball-reference.com/bullpen/1981_Split_Season_Schedule"
+    )
     print("* No playoff occured in 1994 due to a players' strike")
-    

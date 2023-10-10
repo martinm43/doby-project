@@ -17,9 +17,11 @@ from mlb_database.queries import team_abbreviation
 
 for team_id in range(30, 32):
     conn = sqlite3.connect("/Users/martin/Documents/doby/stroman_src/")
-    query = "SELECT epochtime,elo_rating FROM ratings where team_id = " + str(
-        team_id)+ " order by epochtime desc"
-    
+    query = (
+        "SELECT epochtime,elo_rating FROM ratings where team_id = "
+        + str(team_id)
+        + " order by epochtime desc"
+    )
 
     df = pd.read_sql_query(query, conn)
 
@@ -28,9 +30,7 @@ for team_id in range(30, 32):
     # get the appropriate colours
     cursor = conn.cursor()
     print(team_id)
-    cursor.execute(
-        "SELECT primary_color from teams where team_id=" + str(team_id)
-    )
+    cursor.execute("SELECT primary_color from teams where team_id=" + str(team_id))
     s = cursor.fetchall()
 
     plt.plot(

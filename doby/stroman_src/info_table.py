@@ -34,11 +34,12 @@ from random import randint
 from doby.stroman_src.analytics.wins_script import get_wins
 
 # Query Testing
-#season_year = 2023
-#start_datetime = datetime(season_year,3,15)
-#end_datetime = datetime.today()
+# season_year = 2023
+# start_datetime = datetime(season_year,3,15)
+# end_datetime = datetime.today()
 
-def results_table_function(season_year,start_datetime,end_datetime):
+
+def results_table_function(season_year, start_datetime, end_datetime):
     games_list = games_query(start_datetime, end_datetime)
 
     print(len(games_list))
@@ -51,9 +52,12 @@ def results_table_function(season_year,start_datetime,end_datetime):
     teams_constant = 30
 
     wins_dict_list = [
-        get_wins(i, season_year, start_datetime, end_datetime) for i in range(1, teams_constant+1)
+        get_wins(i, season_year, start_datetime, end_datetime)
+        for i in range(1, teams_constant + 1)
     ]
-    wins_list = [[x["away_record"], x["home_record"], x["record"]] for x in wins_dict_list]
+    wins_list = [
+        [x["away_record"], x["home_record"], x["record"]] for x in wins_dict_list
+    ]
 
     # Pythagorean Wins
     lpw_results = league_pythagorean_wins(
@@ -70,7 +74,7 @@ def results_table_function(season_year,start_datetime,end_datetime):
 
     srs_list = new_srs_ratings_list(epochtime(end_datetime))
 
-    form_list = [form_query(i) for i in range(1, teams_constant+1)]
+    form_list = [form_query(i) for i in range(1, teams_constant + 1)]
 
     lpw_results.sort(key=lambda x: x[0])
 
@@ -90,21 +94,19 @@ def results_table_function(season_year,start_datetime,end_datetime):
             x[4],
             x[5],
             x[7],
-            ]
+        ]
         for x in results
     ]
 
-    #Team name change
+    # Team name change
     for x in results_print_list:
         if x[0] == "WSN" and season_year <= 2004:
             x[0] = "MON"
 
-    #Remove zero entries
+    # Remove zero entries
     results_print_list = [x for x in results_print_list if x[1] > 0]
 
     results_print_list.sort(key=lambda x: x[0])
-
-
 
     results_table = tabulate(
         results_print_list,
@@ -118,25 +120,25 @@ def results_table_function(season_year,start_datetime,end_datetime):
             "Overall Record",
             "Form",
         ],
-        tablefmt="html", #formerly rst
+        tablefmt="html",  # formerly rst
         numalign="left",
     )
 
     return results_table
 
-if __name__ =="__main__":
 
+if __name__ == "__main__":
     # Query Testing
     season_year = 2023
-    start_datetime = datetime(season_year,3,15)
+    start_datetime = datetime(season_year, 3, 15)
     end_datetime = datetime.today()
 
-    results_table = results_table_function(season_year,start_datetime,end_datetime)
+    results_table = results_table_function(season_year, start_datetime, end_datetime)
     print(
-    "Pythagorean Win Expectations, Est. SRS, Elo, and Records \n"
-    + "Based on Games Played Between: "
-    + start_datetime.strftime("%b %d %Y")
-    + " and "
-    + end_datetime.strftime("%b %d %Y")
+        "Pythagorean Win Expectations, Est. SRS, Elo, and Records \n"
+        + "Based on Games Played Between: "
+        + start_datetime.strftime("%b %d %Y")
+        + " and "
+        + end_datetime.strftime("%b %d %Y")
     )
     print(results_table)

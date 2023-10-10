@@ -26,7 +26,6 @@ x = Games.select().order_by(Games.year.desc()).get()
 end_year = x.year
 
 for year in range(start_year, end_year):
-
     season_query(year)
     games = season_query(year)
     success_rate = []

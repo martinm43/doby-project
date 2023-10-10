@@ -40,7 +40,6 @@ def Elo_regress(dElo):
 
 
 def SRS_regress(dSRS):
-
     """
     See analysis performed for Elo_regress.
     """
@@ -53,7 +52,7 @@ def SRS_regress(dSRS):
 
 
 if __name__ == "__main__":
-    max_delo =800
+    max_delo = 800
     print(Elo_regress(max_delo))
     max_dsrs = 15
     print(SRS_regress(max_dsrs))
