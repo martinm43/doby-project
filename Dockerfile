@@ -23,7 +23,7 @@ RUN pip install -r requirements.txt
 
 # Build your C++ application (adjust the build process as needed)
 # only the simulation part not the part needed for ingestion
-RUN cd doby/stroman_src/predict/cython_mcss && ./ext_build.sh
+RUN cd doby/stroman_src/predict/cython_mcss && ./ext_build.sh && cd ../.. && ./build_elo_script.sh && ./build_srs_script.sh
 
 # Expose the port your Flask app will run on
 EXPOSE 5000
