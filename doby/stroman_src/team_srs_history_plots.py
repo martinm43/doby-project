@@ -18,17 +18,21 @@ from doby.stroman_src.mlb_database.queries import team_abbreviation
 rolling_average = 41
 
 from pathlib import Path
+
 base_path = Path(__file__).parent
 file_path = (base_path / "mlb_data.sqlite").resolve()
-#file_path = "/Users/martin/Documents/doby-project/doby/stroman_src/mlb_data.sqlite"
-#print(file_path)
+# file_path = "/Users/martin/Documents/doby-project/doby/stroman_src/mlb_data.sqlite"
+# print(file_path)
+
 
 def team_plot_function(team_id):
     print(file_path)
     conn = sqlite3.connect(file_path)
-    query = "SELECT epochtime,srs_rating FROM SRS where team_id = " + str(
-        team_id)+ " order by epochtime desc"
-    
+    query = (
+        "SELECT epochtime,srs_rating FROM SRS where team_id = "
+        + str(team_id)
+        + " order by epochtime desc"
+    )
 
     df = pd.read_sql_query(query, conn)
 
@@ -36,9 +40,7 @@ def team_plot_function(team_id):
 
     # get the appropriate colours
     cursor = conn.cursor()
-    cursor.execute(
-        "SELECT primary_color from teams where team_id=" + str(team_id)
-    )
+    cursor.execute("SELECT primary_color from teams where team_id=" + str(team_id))
     s = cursor.fetchall()
     plt.figure(figsize=(8, 8))
     plt.plot(
@@ -52,12 +54,13 @@ def team_plot_function(team_id):
     plt.legend()
     plt.title("SRS rating history")
     img_stream = io.BytesIO()
-    plt.savefig(img_stream, format='png')
+    plt.savefig(img_stream, format="png")
     img_stream.seek(0)
     img_base64 = base64.b64encode(img_stream.read()).decode()
     return img_base64
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     for team_id in range(30, 0, -1):
         img_base64 = team_plot_function(team_id)
 
@@ -70,7 +73,7 @@ if __name__=="__main__":
         # Read and plot the image using Matplotlib
         img = plt.imread(img_stream)
         plt.imshow(img)
-        #plt.axis('off')  # Optionally, turn off axis labels
+        # plt.axis('off')  # Optionally, turn off axis labels
 
         plt.show(block=False)
         plt.pause(1)

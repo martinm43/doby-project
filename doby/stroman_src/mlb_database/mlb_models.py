@@ -1,18 +1,21 @@
 from peewee import *
 
 from pathlib import Path
+
 base_path = Path(__file__).parent
 file_path = (base_path / "../mlb_data.sqlite").resolve()
 
 database = SqliteDatabase(file_path)
 
 # class TextField(object):
-#     def __init__(self, *_, **__): 
+#     def __init__(self, *_, **__):
 #         pass
+
 
 class BaseModel(Model):
     class Meta:
         database = database
+
 
 class Games(BaseModel):
     attendance = FloatField(null=True)
@@ -41,7 +44,8 @@ class Games(BaseModel):
     home_team_id = IntegerField(null=True)
 
     class Meta:
-        table_name = 'games'
+        table_name = "games"
+
 
 class Teams(BaseModel):
     abbreviation = TextField(null=True)
@@ -54,12 +58,13 @@ class Teams(BaseModel):
     team_id = IntegerField(null=True)
     team_name = TextField(null=True)
     primary_color = TextField(null=True)
-    legacy_divisions_1 = TextField(null=True) #1998 to 2012
-    legacy_divisions_2 = TextField(null=True) #1994 to 1997
-    legacy_divisions_3 = TextField(null=True) #1977 to 1993
+    legacy_divisions_1 = TextField(null=True)  # 1998 to 2012
+    legacy_divisions_2 = TextField(null=True)  # 1994 to 1997
+    legacy_divisions_3 = TextField(null=True)  # 1977 to 1993
 
     class Meta:
-        table_name = 'teams'
+        table_name = "teams"
+
 
 class MlbTeamEloData(BaseModel):
     current_abbreviation = TextField(null=True)
@@ -70,7 +75,8 @@ class MlbTeamEloData(BaseModel):
     team_id = IntegerField(null=True)
 
     class Meta:
-        table_name = 'mlb_team_elo_data'
+        table_name = "mlb_team_elo_data"
+
 
 class Ratings(BaseModel):
     epochtime = FloatField(null=True)
@@ -81,7 +87,8 @@ class Ratings(BaseModel):
     team_id = IntegerField(null=True)
 
     class Meta:
-        table_name = 'ratings'
+        table_name = "ratings"
+
 
 class SRS(BaseModel):
     epochtime = FloatField(null=True)
@@ -92,4 +99,4 @@ class SRS(BaseModel):
     team_id = IntegerField(null=True)
 
     class Meta:
-        table_name = 'SRS'
+        table_name = "SRS"

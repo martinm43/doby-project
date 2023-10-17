@@ -2,24 +2,26 @@ import os
 from requests import request
 from flask import Flask, render_template
 import matplotlib
-matplotlib.use('agg')
+
+matplotlib.use("agg")
 from matplotlib import pyplot as plt
-from doby.stroman_src.team_srs_history_plots import team_plot_function 
+from doby.stroman_src.team_srs_history_plots import team_plot_function
 
 import io
 import base64
+
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'doby.sqlite'),
+        SECRET_KEY="dev",
+        DATABASE=os.path.join(app.instance_path, "doby.sqlite"),
     )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile("config.py", silent=True)
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -30,10 +32,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    #a simple page that says hello
-    @app.route('/hello')
+    # a simple page that says hello
+    @app.route("/hello")
     def hello():
-       return 'Hello, World!'
+        return "Hello, World!"
 
     # @app.route('/', methods=['GET', 'POST'])
     # @app.route('/index')
@@ -56,19 +58,24 @@ def create_app(test_config=None):
     #         # img_stream = io.BytesIO()
     #         # plt.savefig(img_stream, format='png')
     #         # img_stream.seek(0)
-    #         img_base64 = team_plot_function(team_id) 
-    #         return render_template('index.html', plot=img_base64) 
+    #         img_base64 = team_plot_function(team_id)
+    #         return render_template('index.html', plot=img_base64)
     #     return render_template('index.html')
 
     from . import db
+
     db.init_app(app)
 
-
     from . import auth
+
     app.register_blueprint(auth.bp)
 
     from . import blog
+
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='navigation',) #breaks file?
+    app.add_url_rule(
+        "/",
+        endpoint="navigation",
+    )  # breaks file?
 
     return app
