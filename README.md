@@ -31,27 +31,11 @@ Descriptions of the files are provided in the Stroman library. Sample plots are 
 - More unit and functional tests
 - CSS improvements
 
+## <u>Docker image</u>
+[Docker image, most recent 0.3.0, located here.](https://hub.docker.com/repository/docker/bullhorn5182/doby/general)
 
 ## <u>Attributions</u>
-This project incorporates source from the Armadillo C++ Linear Algebra Library.
-As such, the attributions of Armadillo will be included in this project in accordance with their wishes:
-
-Copyright 2008-2018 Conrad Sanderson (http://conradsanderson.id.au)
-
-Copyright 2008-2016 National ICT Australia (NICTA)
-
-Copyright 2017-2018 Arroyo Consortium
-
-Copyright 2017-2018 Data61, CSIRO
-
-This product includes software developed by Conrad Sanderson (http://conradsanderson.id.au)
-
-This product includes software developed at National ICT Australia (NICTA)
-
-This product includes software developed at Arroyo Consortium
-
-This product includes software developed at Data61, CSIRO
-
+Due to containerization there's no need to formally provide a copy of the [Armadillo library](https://arma.sourceforge.net/) or [Eigen library](https://gitlab.com/libeigen/eigen) but both of these excellent C++ libraries contributed to the development of this library.
 
 
 
