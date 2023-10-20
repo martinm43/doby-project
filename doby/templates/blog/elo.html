@@ -5,7 +5,38 @@
     <h1>Graph Plotter - Elo</h1>
     <form method="post">
         <label for="team_id">Team ID</label>
-        <input type="text" name="team_id" required><br>
+        <select name="team_id" required>
+            <option value="1">Los Angeles Angels of Anaheim/California Angels</option>
+            <option value="2">Arizona Diamondbacks</option>
+            <option value="3">Atlanta Braves</option>
+            <option value="4">Baltimore Orioles</option>
+            <option value="5">Boston Red Sox</option>
+            <option value="6">Chicago Cubs</option>
+            <option value="7">Chicago White Sox</option>
+            <option value="8">Cincinnati Reds</option>
+            <option value="9">Cleveland Indians</option>
+            <option value="10">Colorado Rockies</option>
+            <option value="11">Detroit Tigers</option>
+            <option value="12">Miami Marlins</option>
+            <option value="13">Houston Astros</option>
+            <option value="14">Kansas City Royals</option>
+            <option value="15">Los Angeles Dodgers</option>
+            <option value="16">Milwaukee Brewers</option>
+            <option value="17">Minnesota Twins</option>
+            <option value="18">New York Mets</option>
+            <option value="19">New York Yankees</option>
+            <option value="20">Oakland A's</option>
+            <option value="21">Philadelphia Phillies</option>
+            <option value="22">Pittsburgh Pirates</option>
+            <option value="23">San Diego Padres</option>
+            <option value="24">Seattle Mariners</option>
+            <option value="25">San Francisco Giants</option>
+            <option value="26">St. Louis Cardinals</option>
+            <option value="27">Tampa Bay Rays</option>
+            <option value="28">Texas Rangers</option>
+            <option value="29">Toronto Blue Jays</option>
+            <option value="30">Washington Nationals</option>
+        </select><br>
         <button type="submit">Plot</button>
     </form>
     {% if plot %}
