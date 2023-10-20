@@ -9,7 +9,10 @@
         <label for="division_name">Division Name</label>
         <input type="text" name="division_name" required><br>
         <label for="ratings_mode">Ratings Mode</label>
-        <input type="text" name="ratings_mode" required><br>
+        <select name="ratings_mode" required>
+            <option value="SRS">SRS</option>
+            <option value="Elo">Elo</option>
+        </select><br>
         <button type="submit">Plot</button>
     </form>
     {% if plot %}

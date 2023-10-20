@@ -31,48 +31,6 @@ from doby.stroman_src.mlb_database.mlb_models import Teams
 year_max = 2023
 year_min = 1977
 
-""" try:
-    season_year = int(input(f"Please select a year between {year_min} and {year_max}, or enter 0 for random year: "))
-except ValueError:
-    print("Invalid value entered, quitting!!")
-    sys.exit(1)
-    0
-if season_year == 0:
-    season_year = random.randint(year_min,year_max)
-if season_year > year_max or season_year < year_min:
-    print("Year outside range, exiting!")
-    sys.exit(1)
-
-#Select a division
-if season_year >= 1994:
-    mode_dict={1:"AL Central",
-    2:"AL East",
-    3:"AL West",
-    4:"NL Central",
-    5:"NL East",
-    6:"NL West"}
-    print("Divisions in "+str(season_year)+" are as follows: ")
-    print(" 1: AL Central \n 2: AL East \n 3: AL West \n 4: NL Central \n 5: NL East \n 6: NL West")
-    dn = int(input("Please select a division: "))
-    #dn = random.randint(1,6)
-else:
-    mode_dict={1:"AL East",
-    2:"AL West",
-    3:"NL East",
-    4:"NL West"}
-    print("Divisions in "+str(season_year)+" are as follows: ")
-    print(" 1: AL East \n 2: AL West \n 3: NL East \n 4: NL West")
-    dn = int(input("Please select a division: "))
-    #dn = random.randint(1,4)
-
-try:
-    division_name = mode_dict[int(dn)]
-    print(division_name)
-except KeyError:
-    print("Invalid division key provided, quitting")
-    sys.exit(1) """
-
-
 def plot_season_odds(season_year, division_name, ratings_mode):
     a = datetime(season_year, 3, 20)
     b = datetime(season_year, 4, 10)
@@ -98,19 +56,19 @@ def plot_season_odds(season_year, division_name, ratings_mode):
 
     # Choosing appropriate divisions
     if season_year >= 2013:
-        print("ONE")
+        #print("ONE")
         query = Teams.select().where(Teams.division == division_name)
         division_team_id_list = [i.team_id for i in query]
     if season_year >= 1998 and season_year <= 2012:
-        print("TWO")
+        #print("TWO")
         query = Teams.select().where(Teams.legacy_divisions_1 == division_name)
         division_team_id_list = [i.team_id for i in query]
     if season_year >= 1994 and season_year <= 1997:
-        print("THREE")
+        #print("THREE")
         query = Teams.select().where(Teams.legacy_divisions_2 == division_name)
         division_team_id_list = [i.team_id for i in query]
     elif season_year <= 1993:
-        print("FOUR")
+        #print("FOUR")
         query = Teams.select().where(Teams.legacy_divisions_3 == division_name)
         division_team_id_list = [i.team_id for i in query]
 
@@ -134,7 +92,7 @@ def plot_season_odds(season_year, division_name, ratings_mode):
 
         odds_list.append(x_odds)
         dates_list.append(b)
-        print("Finished processing " + b.strftime("%m %d %Y"))
+        #print("Finished processing " + b.strftime("%m %d %Y"))
         b = b + timedelta(days=4)  # 1
 
     odds_array = np.asarray(odds_list)

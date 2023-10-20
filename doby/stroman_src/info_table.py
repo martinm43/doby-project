@@ -42,7 +42,7 @@ from doby.stroman_src.analytics.wins_script import get_wins
 def results_table_function(season_year, start_datetime, end_datetime):
     games_list = games_query(start_datetime, end_datetime)
 
-    print(len(games_list))
+    #print(len(games_list))
 
     # Custom SRS calculation options
     max_MOV = 100  # no real max MOV
