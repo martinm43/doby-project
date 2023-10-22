@@ -57,7 +57,7 @@ def pred_table():
     return render_template("blog/pred.html")
 
 
-@bp.route("/info_datepicker", methods=["GET", "POST"])
+@bp.route("/team_statistics", methods=["GET", "POST"])
 def info_table_datepicker():
     if request.method == "POST":
         season_year = int(request.form["season_year"])
@@ -68,7 +68,7 @@ def info_table_datepicker():
         results_table = results_table_function(
             season_year, start_datetime, end_datetime
         )
-        return render_template("blog/info_datepicker.html", table=results_table)
+        return render_template("blog/team_statistics.html", table=results_table)
     else:
         # Use default values for initial rendering
         season_year = 2023
@@ -77,7 +77,7 @@ def info_table_datepicker():
         end_datetime_str = datetime(season_year, 11, 1).strftime("%Y-%m-%d")
 
     return render_template(
-        "blog/info_datepicker.html",
+        "blog/team_statistics.html",
         season_year=season_year,
         start_date=start_datetime_str,
         end_date=end_datetime_str,

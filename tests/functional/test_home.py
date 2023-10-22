@@ -55,14 +55,14 @@ def test_pred_season_odds(test_client):
     response = test_client.get('/pred')
     assert response.status_code == 302 #redirect to login
 
-def test_info_datepicker(test_client):
+def test_team_statistics(test_client):
     """
     GIVEN a Flask application configured for testing
     WHEN the '/elo' page is requested (GET)
     THEN check the following conditions:
     -response code 200
     """
-    response = test_client.get('/info_datepicker')
+    response = test_client.get('/team_statistics')
     assert response.status_code == 200
 
 def test_srs(test_client):
