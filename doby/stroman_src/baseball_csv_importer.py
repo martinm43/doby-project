@@ -19,8 +19,8 @@ from pathlib import Path
 SQLITE_MAX_VARIABLE_NUMBER = 100
 
 
-start_year = 1953
-end_year = 1946
+start_year = 1976
+end_year = 1945
 base_path = Path(__file__).parent
 
 
