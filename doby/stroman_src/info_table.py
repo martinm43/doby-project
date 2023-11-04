@@ -24,10 +24,10 @@ from doby.stroman_src.mlb_database.queries import (
     form_query,
 )
 
-from doby.stroman_src.mlb_database.mlb_models import Games
+from .mlb_database.mlb_models import Games
 
 # Analytics imports
-from doby.stroman_src.analytics.pythag import league_pythagorean_wins
+from .analytics.pythag import league_pythagorean_wins
 from random import randint
 
 # Wins script import
