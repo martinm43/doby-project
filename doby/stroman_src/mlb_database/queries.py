@@ -86,7 +86,7 @@ def abbrev_to_id(team_abbrev):
     """
     from .mlb_models import Teams
 
-    # print(team_abbrev)
+    print(team_abbrev)
 
     if team_abbrev == "FLA":
         team_abbrev = "MIA"
@@ -96,6 +96,26 @@ def abbrev_to_id(team_abbrev):
         team_abbrev = "LAA"
     if team_abbrev == "MON":
         team_abbrev = "WSN"
+    if team_abbrev == "WSA": #Washington Senators
+        team_abbrev = "TEX"
+    if team_abbrev == "SEP": #Seattle Pilots
+        team_abbrev = "MIL"
+    if team_abbrev == "KCA": #Kansas City Athletics
+        team_abbrev = "OAK"
+    if team_abbrev == "MLN": #Milwaukee Braves become Atlanta Braves
+        team_abbrev = "ATL"
+    if team_abbrev == "WSH": #Another Washington Senators that became Minnesota
+        team_abbrev = "MIN"
+    if team_abbrev == "BRO": #Dodgers
+        team_abbrev = "LAD"
+    if team_abbrev == "NYG": #Giants
+        team_abbrev = "SFG"
+    if team_abbrev == "PHA": #Philadelphia Athetics
+        team_abbrev = "OAK"
+    if team_abbrev == "SLB": #St Louis Browns become Orioles
+        team_abbrev = "BAL"
+    if team_abbrev == "BSN": #Boston Braves become Atlanta Braves.
+        team_abbrev = "ATL"
     s_query = Teams.select(Teams.team_id).where(Teams.abbreviation == team_abbrev)
     s_result = s_query[0]
     return s_result.team_id
