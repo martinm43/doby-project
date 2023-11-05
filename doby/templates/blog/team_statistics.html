@@ -12,30 +12,24 @@
             var startDateInput = $("#start_date");
             var endDateInput = $("#end_date");
             var yearSelector = $("#season_year");
-    
+
             startDateInput.datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true
             });
-    
+
             endDateInput.datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true
             });
-    
+
             // Set default values or values from the POST request
             yearSelector.val('{{ season_year }}');
             startDateInput.val('{{ start_date }}');
             endDateInput.val('{{ end_date }}');
-            
-    
 
-            //startDateInput.val(defaultStartDate);
-            //endDateInput.val(defaultEndDate);
-            
-    
             // Generate a range of years dynamically
             var currentYear = new Date().getFullYear();
             for (var i = 1975; i <= currentYear; i++) {
@@ -44,41 +38,53 @@
                     text: i
                 }));
             }
-    
+
             // Set the default year in the year selector dropdown
             yearSelector.val(2023);
-    
+
             // Handle year selection change
             yearSelector.on("change", function() {
                 var selectedYear = $(this).val();
                 var startDate = new Date(selectedYear, 0, 1); // January 1st
                 var endDate = new Date(selectedYear, 11, 31); // December 31st
-    
+
                 startDateInput.datepicker("option", "minDate", startDate);
                 startDateInput.datepicker("option", "maxDate", endDate);
                 endDateInput.datepicker("option", "minDate", startDate);
                 endDateInput.datepicker("option", "maxDate", endDate);
             });
+
+            $('form').submit(function() {
+                $('#selected_year').val($('#season_year').val());
+                $('#selected_start_date').val($('#start_date').val());
+                $('#selected_end_date').val($('#end_date').val());
+            });
+
         });
-    </script>    
+    </script>
 </head>
 <body>
     <form method="POST">
-    <h1>Calculate Team Statistics Between Dates</h1>
-    <label for="season_year">Select a Year:</label>
-    <select id="season_year" name="season_year"></select>
-    <br>
-    <label for="start_date">Start Date:</label>
-    <input type="text" id="start_date" name="start_date">
-    <br>
-    <label for="end_date">End Date:</label>
-    <input type="text" id="end_date" name="end_date">
-    <br>
-    <button type="submit" value="Submit">Submit</button>
+        <h1>Calculate Team Statistics Between Dates</h1>
+        <label for="season_year">Select a Year:</label>
+        <select id="season_year" name="season_year"></select>
+        <br>
+        <label for="start_date">Start Date:</label>
+        <input type="text" id="start_date" name="start_date">
+        <br>
+        <label for "end_date">End Date:</label>
+        <input type="text" id="end_date" name="end_date">
+        <br>
+        <button type="submit" value="Submit">Submit</button>
+        <input type="hidden" id="selected_year" name="selected_year" value="{{ season_year }}">
+        <input type="hidden" id="selected_start_date" name="selected_start_date" value="{{ start_date }}">
+        <input type="hidden" id="selected_end_date" name="selected_end_date" value="{{ end_date }}">
     </form>
+
     {% if table %}
+        <h2>Statistics for Year: {{ selected_year }}, Start Date: {{ selected_start_date }}, End Date: {{ selected_end_date }}</h2>
         {{ table | safe }}
     {% endif %}
+
 </body>
 {% endblock content %}
-
