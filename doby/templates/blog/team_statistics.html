@@ -82,7 +82,7 @@
     </form>
 
     {% if table %}
-        <h2>Statistics for Year: {{ selected_year }}, Start Date: {{ selected_start_date }}, End Date: {{ selected_end_date }}</h2>
+        <h2>Pythagorean Win Expectations, Est. SRS, Elo, and Records for Games between {{ selected_start_date }} and {{ selected_end_date }}, {{selected_year}}</h2>
         {{ table | safe }}
     {% endif %}
 

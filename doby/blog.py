@@ -68,7 +68,7 @@ def info_table_datepicker():
         results_table = results_table_function(
             season_year, start_datetime, end_datetime
         )
-        return render_template("blog/team_statistics.html", table=results_table,selected_year=season_year,selected_start_date=start_datetime,selected_end_date=end_datetime)
+        return render_template("blog/team_statistics.html", table=results_table,selected_year=season_year,selected_start_date=start_datetime.strftime('%b %d %Y'),selected_end_date=end_datetime.strftime('%b %d %Y'))
     else:
         # Use default values for initial rendering
         season_year = 2023
