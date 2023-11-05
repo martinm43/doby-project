@@ -372,7 +372,7 @@ def new_team_elo_rating(team_id, epochtime):
         rtg = rtg[0]
         return rtg
     except IndexError as e:
-        print("ratings don't exist for team " + str(team_id))
+        #print("ratings don't exist for team " + str(team_id))
         return 0
 
 
@@ -424,7 +424,7 @@ def new_team_srs_rating(team_id, epochtime):
         rtg = rtg[0]
         return rtg
     except IndexError as e:
-        print("ratings don't exist for team " + str(team_id))
+        #print("ratings don't exist for team " + str(team_id))
         return 0
 
 

@@ -161,3 +161,6 @@ cython_debug/
 mlb_data.sqlite
 doby/stroman_src/ELOCalc
 doby/stroman_src/SRSCalc
+
+#outputs?
+*.csv

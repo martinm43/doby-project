@@ -20,7 +20,7 @@ SQLITE_MAX_VARIABLE_NUMBER = 100
 
 
 start_year = 1976
-end_year = 1974
+end_year = 1945
 base_path = Path(__file__).parent
 
 
