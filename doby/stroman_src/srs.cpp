@@ -88,7 +88,7 @@ int main() {
         const char* selectDataQuery;
         std::vector<Game> games;
         const int numTeams = 30;
-        int numDays=4;
+        int numDays=4; //SRS should be calculated per numDays
 
 
         while(endepochTime < yearendepochTime) {
@@ -125,7 +125,7 @@ int main() {
 
 
             //Dealing with seasons that started late
-            int game_size_tol = 605;
+            int game_size_tol = 605; //if there are too few days advance.
             if(games.size() < game_size_tol){
                 endepochTime = endepochTime + 60*60*24*numDays;
                 continue;
