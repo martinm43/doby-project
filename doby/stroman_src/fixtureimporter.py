@@ -10,5 +10,6 @@ data['home_team_id']=data['Home Team'].apply(full_name_to_id)
 data['home_team_id']=data['Home Team'].apply(full_name_to_id)
 data['away_team_id']=data['Away Team'].apply(full_name_to_id)
 
+data['year']=2024
 
 print(data)
