@@ -57,7 +57,7 @@ def full_name_to_id(full_team_name):
     Input: a string representing the team's name
     Output: a team id -
     """
-    print(full_team_name)
+ 
     # Adjusting for previous team names/previous team locations.
     # if full_team_name == "foo":
     #     full_team_name = "bar"
